@@ -2,9 +2,16 @@
 'use strict';
 // generated on 2015-03-11 using generator-gulp-webapp 0.3.0
 var gulp = require('gulp');
+var bower = require('gulp-bower');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+
+gulp.task('bower', function () {
+  return bower({
+    'cmd': 'update'
+  })
+});
 
 gulp.task('styles', function () {
   return gulp.src('app/styles/main.scss')
@@ -20,6 +27,7 @@ gulp.task('styles', function () {
     ]))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/styles'))
+    .pipe(gulp.dest('dist/styles'))
     .pipe(reload({stream: true}));
 });
 
@@ -34,7 +42,7 @@ gulp.task('jshint', function () {
 gulp.task('html', ['styles'], function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
-  return gulp.src('app/*.html')
+  return gulp.src('app/**/*.html')
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
@@ -117,7 +125,7 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['bower', 'jshint', 'html', 'images', 'fonts', 'extras'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
