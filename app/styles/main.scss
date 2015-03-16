@@ -11,12 +11,13 @@ html, body {
 }
 
 #about {
-  background-image: url(../images/banner.png);
+  background-color: #47382b;
+  background-image: url(../images/banner.jpg);
   background-size: cover;
   color: #fff;
 
   &.college {
-    background-image: url(../images/college-banner.png);
+    background-image: url(../images/college-banner.jpg);
     padding-bottom: 5em;
   }
 }
